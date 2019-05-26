@@ -42,3 +42,28 @@
 ### Notice
 
 Please upload your source code to GitHub or other similar service
+
+---
+
+### How to use
+
+```shell
+$ cp laradock-env ./laradock/.env
+$ cd laradock
+$ docker-compose up -d nginx mysql adminer
+$ docker-compose exex -it workspace php artisan key:generate
+```
+
+Edit following configuration in **laravel .env** file
+
+```config
+DB_HOST=mysql
+DB_DATABASE=default
+DB_USERNAME=default
+DB_PASSWORD=secret
+```
+
+
+### Optional
+
+Import **VT-ToDoList API.postman_collection.json** to your Postman.
