@@ -1,0 +1,270 @@
+{
+	"info": {
+		"_postman_id": "d9496918-7436-425e-9c65-0ab48c7dd2c4",
+		"name": "Interview - VoiceTube ToDoList API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "ToDoList",
+			"item": [
+				{
+					"name": "Get All To-Do Lists",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/api/to-do/all",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"to-do",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get One To-Do List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/api/to-do/{{to-do-list}}",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"to-do",
+								"{{to-do-list}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create One To-Do List",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Hola\",\n    \"content\": \"Greeting to the world\",\n    \"attachment\": \"Should be the file?\"\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/to-do/",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"to-do",
+								""
+							],
+							"query": [
+								{
+									"key": "content",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "title",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update One To-Do List",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Hola;1=1;DROP TABLE users;--\",\n    \"content\": \"Greeting to the world\",\n    \"done_at\": \"123\",\n    \"attachment\": \"Should be the file?\"\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/to-do/{{to-do-list}}",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"to-do",
+								"{{to-do-list}}"
+							],
+							"query": [
+								{
+									"key": "content",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "title",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete One To-Do List",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{domain}}/api/to-do/{{to-do-list}}",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"to-do",
+								"{{to-do-list}}"
+							],
+							"query": [
+								{
+									"key": "content",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "title",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete All To-Do Lists",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{domain}}/api/to-do/all",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"to-do",
+								"all"
+							],
+							"query": [
+								{
+									"key": "content",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "title",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Token",
+			"item": [
+				{
+					"name": "Get Token Status",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{domain}}/api/token",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"token"
+							],
+							"query": [
+								{
+									"key": "content",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "title",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
