@@ -62,7 +62,7 @@ class ToDoListRepository
         $toDo->content = $updatingData['content'];
 
         # TODO: Use validator to make sure done_at is timestamp
-        $toDo->done_at = new Carbon($updatingData['done_at']);
+        $toDo->done_at = $updatingData['done_at'];
         $toDo->save();
 
         return $toDo;
