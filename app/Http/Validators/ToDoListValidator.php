@@ -11,10 +11,9 @@ class ToDoListValidator
     public static function validateToDoList(array $requestBody): array
     {
         $validator = Validator::make($requestBody, [
-            'title' => 'required|max:2',
+            'title' => 'required|max:255',
             'content' => 'required',
             'done_at' => 'nullable|date',
-            // 'done_at' => 'nullable|date_format:yyyy-MM-dd HH:mm:ss',
             'attachment' => 'nullable',
         ]);
 
