@@ -18,10 +18,10 @@ class ToDoListController extends Controller
         try {
             $result = ToDoListRepository::getAllToDoLists();
         } catch (\Throwable $th) {
-            throw $th;
+            $result = $th;
         }
 
-        return response()->json($result);
+        return response()->custom($result);
     }
 
     /**
@@ -38,10 +38,10 @@ class ToDoListController extends Controller
 
             $result = ToDoListRepository::createToDo($title, $content, $attachment);
         } catch (\Throwable $th) {
-            throw $th;
+            $result = $th;
         }
 
-        return response()->json($result);
+        return response()->custom($result);
     }
 
     /**
@@ -56,10 +56,10 @@ class ToDoListController extends Controller
         try {
             $result = ToDoListRepository::getToDoList($toDoListId);
         } catch (\Throwable $th) {
-            throw $th;
+            $result = $th;
         }
 
-        return response()->json($result);
+        return response()->custom($result);
     }
 
     /**
@@ -74,10 +74,10 @@ class ToDoListController extends Controller
         try {
             $result = ToDoListRepository::updateToDoList($toDoList, $request->all());
         } catch (\Throwable $th) {
-            throw $th;
+            $result = $th;
         }
 
-        return response()->json($request);
+        return response()->custom($result);
     }
 
     /**
@@ -92,10 +92,10 @@ class ToDoListController extends Controller
         try {
             $result = ToDoListRepository::deleteToDoList($toDoList);
         } catch (\Throwable $th) {
-            throw $th;
+            $result = $th;
         }
 
-        return response()->json($result);
+        return response()->custom($result);
     }
 
     /**
@@ -110,9 +110,9 @@ class ToDoListController extends Controller
         try {
             $result = ToDoListRepository::deleteAllToDoLists();
         } catch (\Throwable $th) {
-            throw $th;
+            $result = $th;
         }
 
-        return response()->json($result);
+        return response()->custom($result);
     }
 }
