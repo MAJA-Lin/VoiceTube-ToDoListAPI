@@ -36,6 +36,16 @@ trait ResponseBuilder
                 $httpCode = $e->getStatusCode();
                 break;
 
+            case \InvalidArgumentException::class:
+                $content = $e->getMessage();
+
+                if (strpos($e->getFile(), "Carbon") !== false) {
+                    $content = "Wrong format for date.";
+                }
+
+                $httpCode = Response::HTTP_UNPROCESSABLE_ENTITY;
+                break;
+
             default:
                 Log::error($e);
                 $content = 'System error occurs, please contact IT support.';
