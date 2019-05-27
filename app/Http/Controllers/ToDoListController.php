@@ -35,14 +35,7 @@ class ToDoListController extends Controller
     {
         try {
             $validatedData = ToDoListValidator::validateToDoList($request->all());
-
-            $title = $validatedData['title'];
-            $content = $validatedData['content'];
-
-            # TODO: Multiple attachments uploading?
-            $attachment = $validatedData['attachment'];
-
-            $result = ToDoListRepository::createToDo($title, $content, $attachment);
+            $result = ToDoListRepository::createToDo($validatedData);
         } catch (\Throwable $th) {
             $result = $th;
         }

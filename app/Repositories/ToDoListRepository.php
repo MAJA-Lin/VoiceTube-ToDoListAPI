@@ -11,23 +11,22 @@ use Illuminate\Support\Carbon;
 class ToDoListRepository
 {
     /**
-     * @param string $title
-     * @param string $content
-     * @param string $attachment This can be file or file path.
+     * @param array $validatedData
      *
      * @return \App\Models\ToDoList
      */
-    public static function createToDo(string $title, string $content, string $attachment)
+    public static function createToDo(array $validatedData)
     {
         DB::beginTransaction();
         try {
             $toDo = new ToDoList;
-            $toDo->title = $title;
-            $toDo->content = $content;
+            $toDo->title = $validatedData['title'];
+            $toDo->content = $validatedData['content'];
+            $toDo->done_at = $validatedData['done_at'];
             $toDo->save();
 
             $attach = new Attachment();
-            $attach->path = $attachment;
+            $attach->path = $validatedData['attachment'];
             $toDo->attachments()->save($attach);
         } catch (\Throwable $th) {
             DB::rollBack();
