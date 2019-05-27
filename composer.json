@@ -59,6 +59,15 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
+        ],
+        "init-setup": [
+            "@php artisan key:generate",
+            "@php artisan jwt:secret"
+        ],
+        "clear": [
+            "composer dumpautoload",
+            "@php artisan clear-compiled",
+            "@php artisan view:clear"
         ]
     }
 }
