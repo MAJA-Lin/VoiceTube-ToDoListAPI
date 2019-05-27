@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Log;
 
 trait ResponseBuilder
 {
@@ -13,12 +14,13 @@ trait ResponseBuilder
         $content = $data;
 
         if ($data instanceof \Error) {
+            Log::emergency($data);
             $content = 'System error occurs, please contact IT support.';
             $httpCode = Response::HTTP_INTERNAL_SERVER_ERROR;
         }
 
         if ($data instanceof \Exception) {
-            // For customize exception
+            Log::error($data);
         }
 
         return ['content' => $content, 'httpCode' => $httpCode];
