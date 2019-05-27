@@ -50,7 +50,7 @@ Please upload your source code to GitHub or other similar service
 ```shell
 $ cp laradock-env ./laradock/.env
 $ cd laradock
-$ docker-compose up -d nginx mysql adminer
+$ docker-compose up -d nginx mysql adminer redis
 $ docker-compose exex -it workspace php artisan key:generate
 ```
 
