@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpKernel\Exception\HttpException as SymfonyHttpException;
 
 trait ResponseBuilder
 {
@@ -20,9 +21,26 @@ trait ResponseBuilder
         }
 
         if ($data instanceof \Exception) {
-            Log::error($data);
-            $content = 'System error occurs, please contact IT support.';
-            $httpCode = Response::HTTP_BAD_REQUEST;
+            ['content' => $content, 'httpCode' => $httpCode] = static::processException($data);
+        }
+
+        return ['content' => $content, 'httpCode' => $httpCode];
+    }
+
+    public static function processException(\Exception $e)
+    {
+        # TODO: Refactor with factory mode
+        switch (get_class($e)) {
+            case SymfonyHttpException::class:
+                $content = $e->getMessage();
+                $httpCode = $e->getStatusCode();
+                break;
+
+            default:
+                Log::error($e);
+                $content = 'System error occurs, please contact IT support.';
+                $httpCode = Response::HTTP_BAD_REQUEST;
+                break;
         }
 
         return ['content' => $content, 'httpCode' => $httpCode];

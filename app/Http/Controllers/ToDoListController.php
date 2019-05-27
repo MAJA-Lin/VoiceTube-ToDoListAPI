@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ToDoList;
 use App\Repositories\ToDoListRepository;
-use App\Http\Requests\ToDoListRequest;
+use App\Http\Validators\ToDoListValidator;
 use Illuminate\Http\Request;
 
 class ToDoListController extends Controller
@@ -28,13 +28,13 @@ class ToDoListController extends Controller
     /**
      * Create a new resource. Now only support upload single attachment
      *
-     * @param ToDoListRequest $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function createToDoList(ToDoListRequest $request)
+    public function createToDoList(Request $request)
     {
         try {
-            $validatedData = $request->validated();
+            $validatedData = ToDoListValidator::validateToDoList($request->all());
 
             $title = $validatedData['title'];
             $content = $validatedData['content'];
@@ -71,14 +71,15 @@ class ToDoListController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param ToDoListRequest $request
+     * @param \Illuminate\Http\Request $request
      * @param \App\Models\ToDoList $toDoList
      * @return \Illuminate\Http\Response
      */
-    public function updateToDoList(ToDoListRequest $request, ToDoList $toDoList)
+    public function updateToDoList(Request $request, ToDoList $toDoList)
     {
         try {
-            $result = ToDoListRepository::updateToDoList($toDoList, $request->all());
+            $validatedData = ToDoListValidator::validateToDoList($request->all());
+            $result = ToDoListRepository::updateToDoList($toDoList, $validatedData);
         } catch (\Throwable $th) {
             $result = $th;
         }

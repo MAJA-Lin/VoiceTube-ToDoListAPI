@@ -60,8 +60,6 @@ class ToDoListRepository
     {
         $toDo->title = $updatingData['title'];
         $toDo->content = $updatingData['content'];
-
-        # TODO: Use validator to make sure done_at is timestamp
         $toDo->done_at = $updatingData['done_at'];
         $toDo->save();
 
