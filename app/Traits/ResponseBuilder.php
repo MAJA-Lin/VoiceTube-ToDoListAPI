@@ -46,6 +46,11 @@ trait ResponseBuilder
                 $httpCode = Response::HTTP_UNPROCESSABLE_ENTITY;
                 break;
 
+            case \Illuminate\Database\Eloquent\ModelNotFoundException::class:
+                $httpCode = Response::HTTP_NOT_FOUND;
+                $content = "Data not found";
+                break;
+
             default:
                 Log::error($e);
                 $content = 'System error occurs, please contact IT support.';

@@ -46,7 +46,7 @@ class ToDoListRepository
      */
     public static function getToDoList(int $id): \Illuminate\Database\Eloquent\Collection
     {
-        $toDo = ToDoList::where('id', '=', $id)->with('attachments')->get();
+        $toDo = ToDoList::where('id', '=', $id)->with('attachments')->firstOrFail();
         return $toDo;
     }
 
