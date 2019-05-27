@@ -20,11 +20,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['prefix' => 'to-do'], function () {
     Route::get('/all', 'ToDoListController@listAll');
     Route::get('/{toDoListId}', 'ToDoListController@showToDoList');
-    Route::post('/', 'ToDoListController@createToDoList');
-    Route::put('/{toDoList}', 'ToDoListController@updateToDoList');
 
-    Route::delete('/all', 'ToDoListController@deleteAllToDoList');
-    Route::delete('/{toDoList}', 'ToDoListController@deleteToDoList');
+    Route::group(['middleware' => 'jwt.auth'], function () {
+        Route::post('/', 'ToDoListController@createToDoList');
+        Route::put('/{toDoList}', 'ToDoListController@updateToDoList');
+
+        Route::delete('/all', 'ToDoListController@deleteAllToDoList');
+        Route::delete('/{toDoList}', 'ToDoListController@deleteToDoList');
+    });
 });
 
 Route::group([

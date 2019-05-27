@@ -9,6 +9,11 @@
 			"name": "ToDoList",
 			"item": [
 				{
+					"name": "Token",
+					"item": [],
+					"_postman_isSubFolder": true
+				},
+				{
 					"name": "Get All To-Do Lists",
 					"request": {
 						"method": "GET",
@@ -49,18 +54,55 @@
 				{
 					"name": "Create One To-Do List",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Content-Type",
 								"name": "Content-Type",
-								"value": "application/json",
+								"value": "application/x-www-form-urlencoded",
 								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "multipart/form-data",
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"title\": \"Hola\",\n    \"content\": \"Greeting to the world\",\n    \"attachment\": \"Should be the file?\"\n}"
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "title",
+									"value": "Hola",
+									"type": "text"
+								},
+								{
+									"key": "content",
+									"value": "Greeting to the world",
+									"type": "text"
+								},
+								{
+									"key": "attachment",
+									"value": "Should be the file?",
+									"type": "text"
+								},
+								{
+									"key": "done_at",
+									"value": "2019-06-25 13:00:21",
+									"type": "text"
+								}
+							]
 						},
 						"url": {
 							"raw": "{{domain}}/api/to-do/",
@@ -91,6 +133,16 @@
 				{
 					"name": "Update One To-Do List",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [
 							{
@@ -102,7 +154,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\": \"Hola;1=1;DROP TABLE users;--\",\n    \"content\": \"Greeting to the world\",\n    \"done_at\": \"123\",\n    \"attachment\": \"Should be the file?\"\n}"
+							"raw": "{\n    \"title\": \"Hola;1=1;DROP TABLE users;--\",\n    \"content\": \"Greeting to the world\",\n    \"done_at\": \"2019-05-27 12:00:07\",\n    \"attachment\": \"Should be the file?\"\n}"
 						},
 						"url": {
 							"raw": "{{domain}}/api/to-do/{{to-do-list}}",
@@ -133,6 +185,16 @@
 				{
 					"name": "Delete One To-Do List",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [
 							{
@@ -175,6 +237,16 @@
 				{
 					"name": "Delete All To-Do Lists",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [
 							{
@@ -218,15 +290,85 @@
 			]
 		},
 		{
-			"name": "Token",
+			"name": "Auth",
 			"item": [
 				{
-					"name": "Get Token Status",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
+					"name": "Login",
 					"request": {
-						"method": "GET",
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "{{email}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{domain}}/api/auth/login",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "title",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -240,13 +382,170 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{domain}}/api/token",
+							"raw": "{{domain}}/api/auth/logout",
 							"host": [
 								"{{domain}}"
 							],
 							"path": [
 								"api",
-								"token"
+								"auth",
+								"logout"
+							],
+							"query": [
+								{
+									"key": "content",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "title",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{domain}}/api/auth/refresh",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"refresh"
+							],
+							"query": [
+								{
+									"key": "content",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "title",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Info",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{domain}}/api/auth/me",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"me"
+							],
+							"query": [
+								{
+									"key": "content",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "title",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get token status",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{domain}}/api/auth/status",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"status"
 							],
 							"query": [
 								{
