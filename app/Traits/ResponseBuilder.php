@@ -21,6 +21,8 @@ trait ResponseBuilder
 
         if ($data instanceof \Exception) {
             Log::error($data);
+            $content = 'System error occurs, please contact IT support.';
+            $httpCode = Response::HTTP_BAD_REQUEST;
         }
 
         return ['content' => $content, 'httpCode' => $httpCode];
