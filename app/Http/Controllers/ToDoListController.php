@@ -6,6 +6,8 @@ use App\Models\ToDoList;
 use App\Repositories\ToDoListRepository;
 use App\Http\Validators\ToDoListValidator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class ToDoListController extends Controller
 {
@@ -17,7 +19,7 @@ class ToDoListController extends Controller
     public function listAll(Request $request)
     {
         try {
-            $result = ToDoListRepository::getAllToDoLists();
+            $result = ToDoListRepository::getAllToDoLists(Auth::user());
         } catch (\Throwable $th) {
             $result = $th;
         }
@@ -35,7 +37,7 @@ class ToDoListController extends Controller
     {
         try {
             $validatedData = ToDoListValidator::validateToDoList($request->all());
-            $result = ToDoListRepository::createToDo($validatedData);
+            $result = ToDoListRepository::createToDo(Auth::user(), $validatedData);
         } catch (\Throwable $th) {
             $result = $th;
         }
@@ -53,7 +55,7 @@ class ToDoListController extends Controller
     public function showToDoList(Request $request, int $toDoListId)
     {
         try {
-            $result = ToDoListRepository::getToDoList($toDoListId);
+            $result = ToDoListRepository::getToDoList(Auth::user(), $toDoListId);
         } catch (\Throwable $th) {
             $result = $th;
         }
@@ -71,6 +73,8 @@ class ToDoListController extends Controller
     public function updateToDoList(Request $request, ToDoList $toDoList)
     {
         try {
+            $this->checkUserPermission($toDoList);
+
             $validatedData = ToDoListValidator::validateToDoList($request->all());
             $result = ToDoListRepository::updateToDoList($toDoList, $validatedData);
         } catch (\Throwable $th) {
@@ -90,6 +94,8 @@ class ToDoListController extends Controller
     public function deleteToDoList(Request $request, ToDoList $toDoList)
     {
         try {
+            $this->checkUserPermission($toDoList);
+
             $result = ToDoListRepository::deleteToDoList($toDoList);
         } catch (\Throwable $th) {
             $result = $th;
@@ -108,11 +114,18 @@ class ToDoListController extends Controller
     public function deleteAllToDoList(Request $request)
     {
         try {
-            $result = ToDoListRepository::deleteAllToDoLists();
+            $result = ToDoListRepository::deleteAllToDoLists(Auth::user());
         } catch (\Throwable $th) {
             $result = $th;
         }
 
         return response()->custom($result);
+    }
+
+    protected function checkUserPermission(ToDoList $todoList)
+    {
+        if ($todoList->user->id !== Auth::user()->id) {
+            throw new AccessDeniedHttpException("You don't have access.");
+        }
     }
 }
