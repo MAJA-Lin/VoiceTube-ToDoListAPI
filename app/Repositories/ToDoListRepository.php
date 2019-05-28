@@ -6,6 +6,7 @@ use App\Models\ToDoList;
 use App\Models\Attachment;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Collection;
+use App\Events\UploadAttachment;
 
 class ToDoListRepository
 {
@@ -24,9 +25,14 @@ class ToDoListRepository
             $toDo->done_at = $validatedData['done_at'];
             $toDo->save();
 
-            $attach = new Attachment();
-            $attach->path = $validatedData['attachment'];
-            $toDo->attachments()->save($attach);
+            if (isset($validatedData['attachment_content'])) {
+                $attachment = event(new UploadAttachment(
+                    $toDo,
+                    $validatedData['attachment_content'],
+                    $validatedData['attachment_name'],
+                    $validatedData['attachment_description']
+                ));
+            }
         } catch (\Throwable $th) {
             DB::rollBack();
             throw $th;
