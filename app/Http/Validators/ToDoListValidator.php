@@ -14,7 +14,9 @@ class ToDoListValidator
             'title' => 'required|max:255',
             'content' => 'required',
             'done_at' => 'nullable|date',
-            'attachment' => 'nullable',
+            'attachment_name' => 'nullable|max:255',
+            'attachment_description' => 'nullable|max:255',
+            'attachment_content' => 'nullable',
         ]);
 
         if ($validator->fails()) {
