@@ -30,32 +30,24 @@ trait ResponseBuilder
     public static function processException(\Exception $e)
     {
         # TODO: Refactor with factory mode
-        switch (get_class($e)) {
-            case SymfonyHttpException::class:
-                $content = $e->getMessage();
-                $httpCode = $e->getStatusCode();
-                break;
+        if ($e instanceof SymfonyHttpException) {
+            $content = $e->getMessage();
+            $httpCode = $e->getStatusCode();
+        } elseif ($e instanceof \InvalidArgumentException) {
+            $content = $e->getMessage();
 
-            case \InvalidArgumentException::class:
-                $content = $e->getMessage();
+            if (strpos($e->getFile(), "Carbon") !== false) {
+                $content = "Wrong format for date.";
+            }
 
-                if (strpos($e->getFile(), "Carbon") !== false) {
-                    $content = "Wrong format for date.";
-                }
-
-                $httpCode = Response::HTTP_UNPROCESSABLE_ENTITY;
-                break;
-
-            case \Illuminate\Database\Eloquent\ModelNotFoundException::class:
-                $httpCode = Response::HTTP_NOT_FOUND;
-                $content = "Data not found";
-                break;
-
-            default:
-                Log::error($e);
-                $content = 'System error occurs, please contact IT support.';
-                $httpCode = Response::HTTP_BAD_REQUEST;
-                break;
+            $httpCode = Response::HTTP_UNPROCESSABLE_ENTITY;
+        } elseif ($e instanceof \Illuminate\Database\Eloquent\ModelNotFoundException) {
+            $httpCode = Response::HTTP_NOT_FOUND;
+            $content = "Data not found";
+        } else {
+            Log::error($e);
+            $content = 'System error occurs, please contact IT support.';
+            $httpCode = Response::HTTP_BAD_REQUEST;
         }
 
         return ['content' => $content, 'httpCode' => $httpCode];
