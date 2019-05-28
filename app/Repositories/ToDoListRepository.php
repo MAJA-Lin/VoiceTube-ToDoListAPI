@@ -11,11 +11,12 @@ use App\Events\UploadAttachment;
 class ToDoListRepository
 {
     /**
+     * @param \App\Models\User $user
      * @param array $validatedData
      *
      * @return \App\Models\ToDoList
      */
-    public static function createToDo(array $validatedData)
+    public static function createToDo(\App\Models\User $user, array $validatedData)
     {
         DB::beginTransaction();
         try {
@@ -23,6 +24,7 @@ class ToDoListRepository
             $toDo->title = $validatedData['title'];
             $toDo->content = $validatedData['content'];
             $toDo->done_at = $validatedData['done_at'];
+            $toDo->user_id = $user->id;
             $toDo->save();
 
             if (isset($validatedData['attachment_content'])) {
@@ -46,18 +48,19 @@ class ToDoListRepository
     }
 
     /**
+     * @param \App\Models\User $user
      * @param integer $id To-Do List Id
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return ToDoList
      */
-    public static function getToDoList(int $id): \Illuminate\Database\Eloquent\Collection
+    public static function getToDoList(\App\Models\User $user, int $id): ToDoList
     {
-        $toDo = ToDoList::where('id', '=', $id)->with('attachments')->firstOrFail();
+        $toDo = ToDoList::byUserId($user->id)->where('id', '=', $id)->with('attachments')->firstOrFail();
         return $toDo;
     }
 
-    public static function getAllToDoLists(): \Illuminate\Database\Eloquent\Collection
+    public static function getAllToDoLists(\App\Models\User $user): \Illuminate\Database\Eloquent\Collection
     {
-        return ToDoList::with('attachments')->get();
+        return ToDoList::byUserId($user->id)->with('attachments')->get();
     }
 
     public static function updateToDoList(ToDoList $toDo, array $updatingData): ToDoList
@@ -85,22 +88,18 @@ class ToDoListRepository
         return true;
     }
 
-    public static function deleteAllToDoLists(): \Illuminate\Database\Eloquent\Collection
+    public static function deleteAllToDoLists(\App\Models\User $user): bool
     {
         DB::beginTransaction();
 
         try {
-            # time complexity: O(n)
-            # Maybe just use raw SQL
-            $result = ToDoList::all()->each(function ($todo) {
-                $todo->delete();
-            });
+            ToDoList::byUserId($user->id)->delete();
         } catch (\Throwable $th) {
             DB::rollBack();
             throw $th;
         }
 
         DB::commit();
-        return $result;
+        return true;
     }
 }
