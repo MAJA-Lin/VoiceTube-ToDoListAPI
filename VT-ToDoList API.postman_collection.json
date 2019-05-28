@@ -15,9 +15,33 @@
 				},
 				{
 					"name": "Get All To-Do Lists",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "{{domain}}/api/to-do/all",
 							"host": [
@@ -34,9 +58,33 @@
 				},
 				{
 					"name": "Get One To-Do List",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "{{domain}}/api/to-do/{{to-do-list}}",
 							"host": [
@@ -93,13 +141,23 @@
 									"type": "text"
 								},
 								{
-									"key": "attachment",
+									"key": "done_at",
+									"value": "2019-06-25 13:00:21",
+									"type": "text"
+								},
+								{
+									"key": "attachment_content",
 									"value": "Should be the file?",
 									"type": "text"
 								},
 								{
-									"key": "done_at",
-									"value": "2019-06-25 13:00:21",
+									"key": "attachment_name",
+									"value": "Hi",
+									"type": "text"
+								},
+								{
+									"key": "attachment_description",
+									"value": "Should be the file?",
 									"type": "text"
 								}
 							]
@@ -154,7 +212,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\": \"Hola;1=1;DROP TABLE users;--\",\n    \"content\": \"Greeting to the world\",\n    \"done_at\": \"2019-05-27 12:00:07\",\n    \"attachment\": \"Should be the file?\"\n}"
+							"raw": "{\n    \"title\": \"Hola;1=1;DROP TABLE users;--\",\n    \"content\": \"Greeting to the world\",\n    \"done_at\": \"2019-05-27 12:00:07\"\n}"
 						},
 						"url": {
 							"raw": "{{domain}}/api/to-do/{{to-do-list}}",
